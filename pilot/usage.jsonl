@@ -1,0 +1,9 @@
+{"run":"networkx-8879-A","tokens":74340,"tool_uses":5,"seconds":63}
+{"run":"pint-2464-A","tokens":75935,"tool_uses":5,"seconds":46}
+{"run":"xarray-11817-A","tokens":69569,"tool_uses":4,"seconds":50}
+{"run":"xarray-11817-B","tokens":76082,"tool_uses":5,"seconds":51}
+{"run":"networkx-8906-A","tokens":78802,"tool_uses":7,"seconds":80}
+{"run":"networkx-8906-B","tokens":77248,"tool_uses":5,"seconds":77}
+{"run":"networkx-8879-B","tokens":76197,"tool_uses":6,"seconds":88}
+{"run":"mne-14439-A","tokens":80297,"tool_uses":13,"seconds":127}
+{"run":"mne-14439-B","tokens":97795,"tool_uses":14,"seconds":162}

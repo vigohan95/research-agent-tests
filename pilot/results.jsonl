@@ -1,0 +1,9 @@
+{"case": "mne-14439", "cond": "A", "verdict": "catches", "fixed": "4 passed in 1.27s", "buggy": "4 failed in 1.80s", "lines": 147}
+{"case": "mne-14439", "cond": "B", "verdict": "catches", "fixed": "7 passed in 1.32s", "buggy": "7 failed in 1.58s", "lines": 106}
+{"case": "networkx-8879", "cond": "A", "verdict": "catches", "fixed": "13 passed in 0.10s", "buggy": "13 failed in 0.35s", "lines": 49}
+{"case": "networkx-8879", "cond": "B", "verdict": "catches", "fixed": "3 passed in 0.08s", "buggy": "3 failed in 0.27s", "lines": 37}
+{"case": "networkx-8906", "cond": "A", "verdict": "catches", "fixed": "5 passed in 0.72s", "buggy": "4 failed, 1 passed in 0.88s", "lines": 100}
+{"case": "networkx-8906", "cond": "B", "verdict": "catches", "fixed": "7 passed in 0.66s", "buggy": "3 failed, 4 passed in 0.91s", "lines": 73}
+{"case": "pint-2464", "cond": "A", "verdict": "catches", "fixed": "6 passed in 0.26s", "buggy": "6 failed in 0.40s", "lines": 79}
+{"case": "xarray-11817", "cond": "A", "verdict": "catches", "fixed": "6 passed, 1 warning in 0.11s", "buggy": "6 failed, 1 warning in 0.29s", "lines": 62}
+{"case": "xarray-11817", "cond": "B", "verdict": "catches", "fixed": "6 passed, 6 skipped, 1 warning in 0.12s", "buggy": "6 failed, 6 skipped, 1 warning in 0.34s", "lines": 47}

@@ -1,0 +1,92 @@
+[
+  {
+    "id": "networkx-8879",
+    "repo": "networkx",
+    "url": "https://github.com/networkx/networkx/pull/8879",
+    "merged": "2026-08-29",
+    "kind": "wrong numeric result",
+    "buggy": "a7d049b4992a1f7e9bd376ce7378d3825d0cfa0e",
+    "fixed": "73cb92bbaed12828848f2609340442119e7e0fe8",
+    "src_files": [
+      "networkx/algorithms/centrality/group.py"
+    ],
+    "ref_tests": [
+      "networkx/algorithms/centrality/tests/test_group.py"
+    ],
+    "test_dir": "networkx/algorithms/centrality/tests",
+    "symptom": "networkx.group_betweenness_centrality returns wrong values on some undirected, connected graphs. In a case where no shortest path between two nodes outside the group passes through the group, the group betweenness should be 0, but the function returns a positive value (0.125 in the reporter's example). The results for a group of several nodes are therefore not trustworthy.",
+    "symptom_vague": "We rank small sets of people in an undirected collaboration network by how much they broker between everyone else, using networkx's group betweenness centrality. Some groups that sit at the edge of the network, and that no one else needs to go through, still get a clearly positive score, so peripheral groups end up ranked above central ones."
+  },
+  {
+    "id": "networkx-8906",
+    "repo": "networkx",
+    "url": "https://github.com/networkx/networkx/pull/8906",
+    "merged": "2026-09-25",
+    "kind": "wrong numeric result",
+    "buggy": "4a72b69adcf22da900710cd39cf6212b9420db12",
+    "fixed": "9f6079c0120416599ea5d4018bbaba229ea2e456",
+    "src_files": [
+      "networkx/algorithms/structuralholes.py"
+    ],
+    "ref_tests": [
+      "networkx/algorithms/tests/test_structuralholes.py"
+    ],
+    "test_dir": "networkx/algorithms/tests",
+    "symptom": "networkx.effective_size (Burt's structural holes measure) gives different numbers for the same weighted graph depending on whether the nodes= keyword is passed. effective_size(G, weight='weight') and effective_size(G, nodes=list(G), weight='weight') disagree on weighted undirected graphs and on directed graphs. Published reference values (UCINET, igraph) match the result obtained with nodes= passed. Unweighted undirected graphs look fine.",
+    "symptom_vague": "Our structural-holes analysis of a weighted, directed trade network uses networkx's effective size measure, computed once for the whole graph. A collaborator ran the same data through UCINET and got different effective sizes for most countries. On an unweighted, undirected toy network the two tools agree."
+  },
+  {
+    "id": "pint-2464",
+    "repo": "pint",
+    "url": "https://github.com/hgrecco/pint/pull/2464",
+    "merged": "2026-10-09",
+    "kind": "wrong physical-units result",
+    "buggy": "8c9448cb95a230f196d9c1e7e90fb61a84acb74e",
+    "fixed": "8077e9d7171795d765db987cc9f6d50b8ddef769",
+    "src_files": [
+      "pint/facets/numpy/numpy_func.py"
+    ],
+    "ref_tests": [
+      "pint/testsuite/test_umath.py"
+    ],
+    "test_dir": "pint/testsuite",
+    "symptom": "With pint Quantities, NumPy's modulo-style functions give wrong answers when the two operands have compatible but different units. For x1 = 7 m and x2 = 200 cm, the operators x1 % x2 and x1 // x2 give the right answers, but calling the NumPy functions (np.mod and related remainder / floor-division functions) on the same quantities gives different, wrong results.",
+    "symptom_vague": "A unit-aware simulation (pint quantities inside NumPy arrays) wraps vehicle positions onto a circular track with NumPy's vectorised remainder functions. When the positions are stored in metres and the track length in centimetres, the wrapped positions are wrong; doing the same arithmetic with the % operator, or with both values in the same unit, gives the expected answer."
+  },
+  {
+    "id": "xarray-11817",
+    "repo": "xarray",
+    "url": "https://github.com/pydata/xarray/pull/11817",
+    "merged": "2026-10-31",
+    "kind": "wrong data transformation",
+    "buggy": "ddbd474109883ca97d70257e0df1a5ac060b137f",
+    "fixed": "163770440c41966d231f56226c3e34c8fb8c8369",
+    "src_files": [
+      "xarray/core/accessor_str.py"
+    ],
+    "ref_tests": [
+      "xarray/tests/test_accessor_str.py"
+    ],
+    "test_dir": "xarray/tests",
+    "symptom": "DataArray.str.zfill in xarray handles signed numbers differently from Python's str.zfill, numpy.strings.zfill and pandas' Series.str.zfill. For values such as '-12' and '+7', the zero padding ends up in the wrong place relative to the sign, so zero-padded identifiers or numeric strings built with xarray do not match what the other libraries produce.",
+    "symptom_vague": "We build fixed-width station identifiers from a DataArray of strings with xarray's string accessor (zero padding) and join them against identifiers built by our pandas pipeline from the same raw codes. Stations whose raw codes carry a leading sign character never match, so the join silently drops them."
+  },
+  {
+    "id": "mne-14439",
+    "repo": "mne-python",
+    "url": "https://github.com/mne-tools/mne-python/pull/14439",
+    "merged": "2026-10-21",
+    "kind": "misaligned data and events",
+    "buggy": "b46a31b407a35c4cd2c56a92988f7cf59405bedc",
+    "fixed": "924975212e939ab2d88cd6e43ddea391103e80c9",
+    "src_files": [
+      "mne/io/base.py"
+    ],
+    "ref_tests": [
+      "mne/io/tests/test_raw.py"
+    ],
+    "test_dir": "mne/io/tests",
+    "symptom": "In MNE-Python, cropping a Raw recording with raw.crop(tmin, tmax, reset_first_samp=True) leaves the annotations out of step with the data: after the crop, annotation onsets no longer point at the same signal samples they pointed at before the crop. With reset_first_samp=False the annotations stay aligned. Related reports mention wrong data being read from non-preloaded files and a wrong first_samp on concatenated recordings after such a crop.",
+    "symptom_vague": "In MNE-Python we trim the start of a continuous EEG recording and reset its time origin so the trimmed recording starts at sample zero, then epoch around the annotated stimulus events. The event-related averages come out smeared and shifted compared with epoching the untrimmed recording around the same events. Without resetting the time origin the averages look right."
+  }
+]

@@ -1,0 +1,9 @@
+{"run":"pint-2464-C","tokens":71878,"tool_uses":6,"seconds":73}
+{"run":"networkx-8906-D","tokens":74882,"tool_uses":8,"seconds":76}
+{"run":"xarray-11817-C","tokens":75736,"tool_uses":9,"seconds":95}
+{"run":"xarray-11817-D","tokens":82907,"tool_uses":14,"seconds":113}
+{"run":"networkx-8879-C","tokens":80019,"tool_uses":12,"seconds":122}
+{"run":"mne-14439-D","tokens":83059,"tool_uses":13,"seconds":126}
+{"run":"mne-14439-C","tokens":81257,"tool_uses":16,"seconds":210}
+{"run":"networkx-8906-C","tokens":87403,"tool_uses":19,"seconds":251}
+{"run":"networkx-8879-D","tokens":101382,"tool_uses":38,"seconds":356}

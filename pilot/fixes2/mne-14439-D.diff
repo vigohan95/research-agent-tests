@@ -1,0 +1,11 @@
+--- a/mne/io/base.py
++++ b/mne/io/base.py
+@@ -2252,6 +2252,8 @@
+             self._first_samps -= delta
+             self._last_samps -= delta
+             self._cropped_samp -= delta
++            # keep annotations aligned with the same samples
++            self.annotations.onset -= delta / self.info["sfreq"]
+         return self
+ 
+     @verbose_static()

@@ -1,0 +1,22 @@
+--- a/mne/io/base.py
++++ b/mne/io/base.py
+@@ -2248,10 +2248,15 @@
+             annotations.onset -= self.first_time
+         self.set_annotations(annotations, False)
+         if reset_first_samp:
+-            delta = self._first_samps[0]
+-            self._first_samps -= delta
+-            self._last_samps -= delta
+-            self._cropped_samp -= delta
++            # Only the logical time origin (first_samp) is reset. The per-file
++            # _first_samps/_last_samps are file-relative sample indices used to
++            # read data from disk and must not be touched. Annotation onsets
++            # (relative to meas_date, or including first_time when meas_date
++            # is None) must be shifted so they keep pointing to the same data.
++            delta_time = self._first_time
++            self._cropped_samp = 0
++            if len(self._annotations):
++                self._annotations.onset -= delta_time
+         return self
+ 
+     @verbose_static()

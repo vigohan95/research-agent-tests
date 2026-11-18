@@ -1,0 +1,382 @@
+[
+ {
+  "repo": "numpy/numpy",
+  "files": {}
+ },
+ {
+  "repo": "scipy/scipy",
+  "files": {}
+ },
+ {
+  "repo": "astropy/astropy",
+  "files": {}
+ },
+ {
+  "repo": "scikit-learn/scikit-learn",
+  "files": {
+   "AGENTS.md": {
+    "bytes": 1317,
+    "test": false,
+    "beyond": [],
+    "guards_tests": false
+   }
+  }
+ },
+ {
+  "repo": "scikit-image/scikit-image",
+  "files": {}
+ },
+ {
+  "repo": "matplotlib/matplotlib",
+  "files": {}
+ },
+ {
+  "repo": "pandas-dev/pandas",
+  "files": {
+   "AGENTS.md": {
+    "bytes": 2714,
+    "test": true,
+    "beyond": [
+     "benchmark"
+    ],
+    "guards_tests": false
+   }
+  }
+ },
+ {
+  "repo": "pydata/xarray",
+  "files": {
+   "AGENTS.md": {
+    "bytes": 2373,
+    "test": true,
+    "beyond": [],
+    "guards_tests": true
+   },
+   "CLAUDE.md": {
+    "bytes": 11,
+    "test": false,
+    "beyond": [],
+    "guards_tests": false
+   }
+  }
+ },
+ {
+  "repo": "sympy/sympy",
+  "files": {
+   "AGENTS.md": {
+    "bytes": 2699,
+    "test": true,
+    "beyond": [],
+    "guards_tests": false
+   },
+   "CLAUDE.md": {
+    "bytes": 11,
+    "test": false,
+    "beyond": [],
+    "guards_tests": false
+   }
+  }
+ },
+ {
+  "repo": "networkx/networkx",
+  "files": {
+   "AGENTS.md": {
+    "bytes": 1806,
+    "test": false,
+    "beyond": [],
+    "guards_tests": false
+   }
+  }
+ },
+ {
+  "repo": "biopython/biopython",
+  "files": {}
+ },
+ {
+  "repo": "mne-tools/mne-python",
+  "files": {
+   "AGENTS.md": {
+    "bytes": 17034,
+    "test": true,
+    "beyond": [
+     "benchmark",
+     "regression"
+    ],
+    "guards_tests": false
+   },
+   "CLAUDE.md": {
+    "bytes": 74,
+    "test": false,
+    "beyond": [],
+    "guards_tests": false
+   }
+  }
+ },
+ {
+  "repo": "nipy/nibabel",
+  "files": {}
+ },
+ {
+  "repo": "nilearn/nilearn",
+  "files": {
+   "AGENTS.md": {
+    "bytes": 7126,
+    "test": true,
+    "beyond": [],
+    "guards_tests": false
+   },
+   "CLAUDE.md": {
+    "bytes": 11,
+    "test": false,
+    "beyond": [],
+    "guards_tests": false
+   }
+  }
+ },
+ {
+  "repo": "pymc-devs/pymc",
+  "files": {
+   "AGENTS.md": {
+    "bytes": 2106,
+    "test": true,
+    "beyond": [
+     "numerical accura"
+    ],
+    "guards_tests": false
+   }
+  }
+ },
+ {
+  "repo": "statsmodels/statsmodels",
+  "files": {
+   "AGENTS.md": {
+    "bytes": 17650,
+    "test": true,
+    "beyond": [
+     "numerical correct",
+     "reference value",
+     "regression"
+    ],
+    "guards_tests": true
+   }
+  }
+ },
+ {
+  "repo": "dask/dask",
+  "files": {
+   "AGENTS.md": {
+    "bytes": 16205,
+    "test": true,
+    "beyond": [
+     "analytic",
+     "tolerance"
+    ],
+    "guards_tests": false
+   },
+   "CLAUDE.md": {
+    "bytes": 16205,
+    "test": true,
+    "beyond": [
+     "analytic",
+     "tolerance"
+    ],
+    "guards_tests": false
+   }
+  }
+ },
+ {
+  "repo": "SciML/DifferentialEquations.jl",
+  "files": {}
+ },
+ {
+  "repo": "openmm/openmm",
+  "files": {}
+ },
+ {
+  "repo": "MDAnalysis/mdanalysis",
+  "files": {}
+ },
+ {
+  "repo": "rdkit/rdkit",
+  "files": {}
+ },
+ {
+  "repo": "lammps/lammps",
+  "files": {
+   "AGENTS.md": {
+    "bytes": 941,
+    "test": true,
+    "beyond": [],
+    "guards_tests": false
+   },
+   ".github/copilot-instructions.md": {
+    "bytes": 8662,
+    "test": true,
+    "beyond": [
+     "benchmark",
+     "regression",
+     "tolerance"
+    ],
+    "guards_tests": false
+   }
+  }
+ },
+ {
+  "repo": "firedrakeproject/firedrake",
+  "files": {
+   "AGENTS.md": {
+    "bytes": 16222,
+    "test": true,
+    "beyond": [
+     "regression"
+    ],
+    "guards_tests": false
+   }
+  }
+ },
+ {
+  "repo": "FEniCS/dolfinx",
+  "files": {
+   "AGENTS.md": {
+    "bytes": 22308,
+    "test": true,
+    "beyond": [],
+    "guards_tests": false
+   }
+  }
+ },
+ {
+  "repo": "pyvista/pyvista",
+  "files": {
+   "AGENTS.md": {
+    "bytes": 7497,
+    "test": true,
+    "beyond": [
+     "regression"
+    ],
+    "guards_tests": false
+   },
+   "CLAUDE.md": {
+    "bytes": 348,
+    "test": true,
+    "beyond": [],
+    "guards_tests": false
+   },
+   ".github/copilot-instructions.md": {
+    "bytes": 934,
+    "test": true,
+    "beyond": [],
+    "guards_tests": false
+   }
+  }
+ },
+ {
+  "repo": "sunpy/sunpy",
+  "files": {}
+ },
+ {
+  "repo": "yt-project/yt",
+  "files": {
+   "AGENTS.md": {
+    "bytes": 3098,
+    "test": true,
+    "beyond": [],
+    "guards_tests": false
+   }
+  }
+ },
+ {
+  "repo": "Unidata/MetPy",
+  "files": {}
+ },
+ {
+  "repo": "ESMValGroup/ESMValTool",
+  "files": {
+   "AGENTS.md": {
+    "bytes": 15663,
+    "test": true,
+    "beyond": [
+     "integration test"
+    ],
+    "guards_tests": true
+   },
+   "CLAUDE.md": {
+    "bytes": 11,
+    "test": false,
+    "beyond": [],
+    "guards_tests": false
+   }
+  }
+ },
+ {
+  "repo": "scverse/scanpy",
+  "files": {}
+ },
+ {
+  "repo": "scverse/anndata",
+  "files": {}
+ },
+ {
+  "repo": "nextflow-io/nextflow",
+  "files": {
+   "AGENTS.md": {
+    "bytes": 1320,
+    "test": true,
+    "beyond": [
+     "end-to-end",
+     "integration test"
+    ],
+    "guards_tests": false
+   }
+  }
+ },
+ {
+  "repo": "snakemake/snakemake",
+  "files": {}
+ },
+ {
+  "repo": "galaxyproject/galaxy",
+  "files": {}
+ },
+ {
+  "repo": "root-project/root",
+  "files": {
+   "AGENTS.md": {
+    "bytes": 3708,
+    "test": true,
+    "beyond": [],
+    "guards_tests": true
+   }
+  }
+ },
+ {
+  "repo": "scikit-hep/awkward",
+  "files": {
+   "AGENTS.md": {
+    "bytes": 7725,
+    "test": true,
+    "beyond": [],
+    "guards_tests": false
+   }
+  }
+ },
+ {
+  "repo": "pyro-ppl/numpyro",
+  "files": {
+   "AGENTS.md": {
+    "bytes": 12005,
+    "test": true,
+    "beyond": [
+     "analytic",
+     "benchmark",
+     "tolerance"
+    ],
+    "guards_tests": false
+   }
+  }
+ },
+ {
+  "repo": "jax-ml/jax",
+  "files": {}
+ }
+]

@@ -1,0 +1,15 @@
+--- a/pint/facets/numpy/numpy_func.py
++++ b/pint/facets/numpy/numpy_func.py
+@@ -460,8 +460,11 @@
+     "maximum",
+     "minimum",
+     "fabs",
++    "fmod",
++    "mod",
++    "remainder",
+ ]
+-copy_units_output_ufuncs = ["ldexp", "fmod", "mod", "remainder"]
++copy_units_output_ufuncs = ["ldexp"]
+ op_units_output_ufuncs = {
+     "var": "variance",
+     "multiply": "mul",
