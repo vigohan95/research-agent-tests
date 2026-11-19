@@ -1,5 +1,7 @@
 # research-agent-tests
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24368783.svg)](https://doi.org/10.5281/zenodo.24368783)
+
 Evidence for one question: when a coding agent fixes a bug in research software and also writes the
 regression test, does the test prove anything, or does it share the fix's misunderstanding?
 
@@ -63,3 +65,8 @@ These are pilot numbers for a larger study design, not results.
 MIT for the scripts and write-ups in this repository. Diffs in `pilot/fixes2/` include context
 lines from the upstream projects, which remain under their own licenses (networkx, pint and
 mne-python: BSD-style; xarray: Apache-2.0).
+
+## Citing
+
+Each release is archived on Zenodo. To cite all versions use https://doi.org/10.5281/zenodo.24368783
+(it resolves to the latest one); v0.1.0 is https://doi.org/10.5281/zenodo.24368784. See `CITATION.cff`.
