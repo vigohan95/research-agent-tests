@@ -1,0 +1,12 @@
+--- a/statsmodels/stats/rates.py
++++ b/statsmodels/stats/rates.py
+@@ -1877,7 +1877,8 @@
+             low_sqrt = (center - crit * std) / denom
+             upp_sqrt = (center + crit * std) / denom
+ 
+-            ci = (low_sqrt**2, upp_sqrt**2)
++            # equ (2.4) is for the ratio of counts, rescale to rate ratio
++            ci = (low_sqrt**2 * n2 / n1, upp_sqrt**2 * n2 / n1)
+ 
+         elif method == "mover":
+             method_p = method_mover

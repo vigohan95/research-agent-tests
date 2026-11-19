@@ -1,0 +1,13 @@
+--- a/networkx/algorithms/structuralholes.py
++++ b/networkx/algorithms/structuralholes.py
+@@ -174,7 +174,9 @@
+             mutual_weights1 /= mutual_weights1.sum(axis=1)[:, np.newaxis]
+ 
+             # Mutual_weights2 = Normalize mutual weights by row max
+-            mutual_weights2 /= mutual_weights2.max(axis=1).toarray()
++            # (row max must be a column vector so that row i is divided by
++            # the max of row i, not column j by the max of row j)
++            mutual_weights2 /= mutual_weights2.max(axis=1).toarray()[:, np.newaxis]
+ 
+         # Calculate effective sizes
+         r = 1 - (mutual_weights1 @ mutual_weights2.T).toarray()

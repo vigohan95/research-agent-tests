@@ -1,0 +1,14 @@
+--- a/numpyro/distributions/transforms.py
++++ b/numpyro/distributions/transforms.py
+@@ -1292,7 +1292,10 @@
+     ) -> NumLike:
+         # |dp/dc| = |dx/dy| = prod(ds/dy) = prod(expit'(y))
+         # we know log derivative of expit(y) is `-softplus(y) - softplus(-y)`
+-        J_logdet = (softplus(y) + softplus(-y)).sum(-1)
++        # The anchor point is a pure shift, so the Jacobian depends only on
++        # the unanchored logits `y - anchor_point`.
++        z = y - jnp.expand_dims(self.anchor_point, -1)
++        J_logdet = (softplus(z) + softplus(-z)).sum(-1)
+         return J_logdet
+ 
+     def tree_flatten(self):

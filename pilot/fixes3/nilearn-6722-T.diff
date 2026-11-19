@@ -1,0 +1,47 @@
+--- a/nilearn/glm/first_level/hemodynamic_models.py
++++ b/nilearn/glm/first_level/hemodynamic_models.py
+@@ -498,13 +498,11 @@
+     # Set up the regressor timecourse
+     tmax = len(frame_times_high_res)
+     regressor = np.zeros_like(frame_times_high_res).astype(np.float64)
+-    t_onset = np.minimum(
+-        np.searchsorted(frame_times_high_res, onsets), tmax - 1
+-    )
++    t_onset = _time_to_high_res_index(onsets, frame_times_high_res)
+     for t, v in zip(t_onset, values, strict=False):
+         regressor[t] += v
+-    t_offset = np.minimum(
+-        np.searchsorted(frame_times_high_res, onsets + durations), tmax - 1
++    t_offset = _time_to_high_res_index(
++        onsets + durations, frame_times_high_res
+     )
+ 
+     # Handle the case where duration is 0 by offsetting at t + 1
+@@ -517,6 +515,27 @@
+     regressor = np.cumsum(regressor)
+ 
+     return regressor, frame_times_high_res
++
++
++def _time_to_high_res_index(times, frame_times_high_res):
++    """Return the index of the first high resolution sample >= times.
++
++    Like ``np.searchsorted(frame_times_high_res, times)``, but a time lying
++    on a grid point up to floating point error is mapped to that grid
++    point. Otherwise ``k * t_r`` (onset of one event) and
++    ``(k - 1) * t_r + t_r`` (offset of the previous one) can land on
++    neighbouring samples, so that back-to-back events overlap or leave a
++    gap of one sample, which shows up as a ripple after convolution.
++    Indices are clipped to ``len(frame_times_high_res) - 1``.
++    """
++    step = (frame_times_high_res[-1] - frame_times_high_res[0]) / (
++        frame_times_high_res.size - 1
++    )
++    tolerance = 1e-6 * step
++    index = np.searchsorted(
++        frame_times_high_res, np.asarray(times, dtype=np.float64) - tolerance
++    )
++    return np.minimum(index, frame_times_high_res.size - 1)
+ 
+ 
+ def _compute_n_frames_high_res(frame_times, min_onset, oversampling):

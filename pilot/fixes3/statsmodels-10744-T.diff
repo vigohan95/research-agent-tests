@@ -1,0 +1,43 @@
+--- a/statsmodels/base/_prediction_inference.py
++++ b/statsmodels/base/_prediction_inference.py
+@@ -552,7 +552,7 @@
+         predicted_mean,
+         var_pred_mean,
+         var_resid,
+-        df=self.df_resid,
++        df=getattr(self, "df_resid_inference", self.df_resid),
+         dist=dist,
+         row_labels=row_labels,
+         linpred=linpred,
+@@ -634,7 +634,11 @@
+ 
+     dist = ["norm", "t"][self.use_t]
+     res = PredictionResultsBase(
+-        predicted, var_pred, df=self.df_resid, dist=dist, row_labels=row_labels
++        predicted,
++        var_pred,
++        df=getattr(self, "df_resid_inference", self.df_resid),
++        dist=dist,
++        row_labels=row_labels,
+     )
+     return res
+ 
+@@ -726,7 +730,7 @@
+     res = PredictionResultsMonotonic(
+         predicted,
+         var_pred,
+-        df=self.df_resid,
++        df=getattr(self, "df_resid_inference", self.df_resid),
+         dist=dist,
+         row_labels=row_labels,
+         linpred=linpred,
+--- a/statsmodels/regression/_prediction.py
++++ b/statsmodels/regression/_prediction.py
+@@ -236,5 +236,6 @@
+ 
+     dist = ["norm", "t"][self.use_t]
+     return PredictionResults(predicted_mean, var_pred_mean, var_resid,
+-                             df=self.df_resid, dist=dist,
++                             df=getattr(self, "df_resid_inference", self.df_resid),
++                             dist=dist,
+                              row_labels=row_labels)

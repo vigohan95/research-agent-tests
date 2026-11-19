@@ -1,0 +1,14 @@
+--- a/pyvista/core/filters/image_data.py
++++ b/pyvista/core/filters/image_data.py
+@@ -3479,9 +3479,10 @@
+         )
+ 
+         # Prepare the new image
++        # The half-voxel shift is along the image axes, so orient it to world space
+         new_image.origin = origin_operator(
+             self.origin,
+-            (np.array(self.spacing) / 2) * dims_mask,
++            np.asarray(self.direction_matrix) @ ((np.array(self.spacing) / 2) * dims_mask),
+         )
+         extent_min = self.extent[::2]
+         new_image.extent = (

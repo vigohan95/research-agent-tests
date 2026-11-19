@@ -1,0 +1,16 @@
+--- a/nilearn/glm/regression.py
++++ b/nilearn/glm/regression.py
+@@ -193,9 +193,10 @@
+         wY = self.whiten(Y)
+         beta = np.dot(self.calc_beta, wY)
+         wresid = wY - np.dot(self.whitened_design, beta)
+-        dispersion = np.sum(wresid**2, 0) / (
+-            self.whitened_design.shape[0] - self.whitened_design.shape[1]
+-        )
++        # Use the residual degrees of freedom (n - rank(X)) rather than
++        # n - n_columns, so rank-deficient designs (e.g. one indicator column
++        # per group plus an intercept) are not penalized.
++        dispersion = np.sum(wresid**2, 0) / self.df_residuals
+         lfit = RegressionResults(
+             beta,
+             Y,

@@ -1,0 +1,13 @@
+--- a/statsmodels/regression/_prediction.py
++++ b/statsmodels/regression/_prediction.py
+@@ -235,6 +235,9 @@
+         var_resid /= weights
+ 
+     dist = ["norm", "t"][self.use_t]
++    # cluster-robust inference uses a reduced df (n_groups - 1), consistent
++    # with t_test and conf_int of the parameters
++    df = getattr(self, "df_resid_inference", self.df_resid)
+     return PredictionResults(predicted_mean, var_pred_mean, var_resid,
+-                             df=self.df_resid, dist=dist,
++                             df=df, dist=dist,
+                              row_labels=row_labels)

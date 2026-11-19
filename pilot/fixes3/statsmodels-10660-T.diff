@@ -1,0 +1,166 @@
+--- a/statsmodels/stats/rates.py
++++ b/statsmodels/stats/rates.py
+@@ -325,15 +325,15 @@
+ 
+     References
+     ----------
+-    .. [1] Barker, Lawrence. 2002. “A Comparison of Nine Confidence Intervals
+-       for a Poisson Parameter When the Expected Number of Events Is ≤ 5.”
++    .. [1] Barker, Lawrence. 2002. 鈥淎 Comparison of Nine Confidence Intervals
++       for a Poisson Parameter When the Expected Number of Events Is 鈮?5.鈥?
+        The American Statistician 56 (2): 85-89.
+        https://doi.org/10.1198/000313002317572736.
+-    .. [2] Patil, VV, and HV Kulkarni. 2012. “Comparison of Confidence
+-       Intervals for the Poisson Mean: Some New Aspects.”
++    .. [2] Patil, VV, and HV Kulkarni. 2012. 鈥淐omparison of Confidence
++       Intervals for the Poisson Mean: Some New Aspects.鈥?
+        REVSTAT-Statistical Journal 10(2): 211-27.
+-    .. [3] Swift, Michael Bruce. 2009. “Comparison of Confidence Intervals for
+-       a Poisson Mean - Further Considerations.” Communications in Statistics -
++    .. [3] Swift, Michael Bruce. 2009. 鈥淐omparison of Confidence Intervals for
++       a Poisson Mean - Further Considerations.鈥?Communications in Statistics -
+        Theory and Methods 38 (5): 748-59.
+        https://doi.org/10.1080/03610920802255856.
+ 
+@@ -522,8 +522,8 @@
+     .. [1] Hahn, Gerald J., and William Q. Meeker. 1991. Statistical Intervals:
+        A Guide for Practitioners. 1st ed. Wiley Series in Probability and
+        Statistics. Wiley. https://doi.org/10.1002/9780470316771.
+-    .. [2] Hahn, Gerald J., and Ramesh Chandra. 1981. “Tolerance Intervals for
+-       Poisson and Binomial Variables.” Journal of Quality Technology 13 (2):
++    .. [2] Hahn, Gerald J., and Ramesh Chandra. 1981. 鈥淭olerance Intervals for
++       Poisson and Binomial Variables.鈥?Journal of Quality Technology 13 (2):
+        100-110. https://doi.org/10.1080/00224065.1981.11980998.
+     """
+     if np.any(np.asarray(count) < 0):
+@@ -1004,8 +1004,8 @@
+     .. [1] Gu, Ng, Tang, Schucany 2008: Testing the Ratio of Two Poisson Rates,
+        Biometrical Journal 50 (2008) 2, 2008
+ 
+-    .. [2] Ng, H. K. T., K. Gu, and M. L. Tang. 2007. “A Comparative Study of
+-       Tests for the Difference of Two Poisson Means.”
++    .. [2] Ng, H. K. T., K. Gu, and M. L. Tang. 2007. 鈥淎 Comparative Study of
++       Tests for the Difference of Two Poisson Means.鈥?
+        Computational Statistics & Data Analysis 51 (6): 3085-99.
+        https://doi.org/10.1016/j.csda.2006.02.004.
+ 
+@@ -1290,8 +1290,8 @@
+     ----------
+     Gu, Ng, Tang, Schucany 2008: Testing the Ratio of Two Poisson Rates,
+     Biometrical Journal 50 (2008) 2, 2008
+-    Ng, H. K. T., K. Gu, and M. L. Tang. 2007. “A Comparative Study of Tests
+-    for the Difference of Two Poisson Means.” Computational Statistics & Data
++    Ng, H. K. T., K. Gu, and M. L. Tang. 2007. 鈥淎 Comparative Study of Tests
++    for the Difference of Two Poisson Means.鈥?Computational Statistics & Data
+     Analysis 51 (6): 3085-99. https://doi.org/10.1016/j.csda.2006.02.004.
+     """
+     alternative = string_like(
+@@ -1690,8 +1690,8 @@
+        Validity of Statistical Hypotheses. Journal of the Royal Statistical
+        Society, Series B (Methodological) 16: 261-68.
+ 
+-    .. [2] Kim, Jae H., and Andrew P. Robinson. 2019. “Interval-Based
+-       Hypothesis Testing and Its Applications to Economics and Finance.”
++    .. [2] Kim, Jae H., and Andrew P. Robinson. 2019. 鈥淚nterval-Based
++       Hypothesis Testing and Its Applications to Economics and Finance.鈥?
+        Econometrics 7 (2): 21. https://doi.org/10.3390/econometrics7020021.
+ 
+     """
+@@ -1871,13 +1871,15 @@
+             # coded based on Price, Bonett 2000 equ (2.4)
+             crit = stats.norm.isf(alpha)
+             center = np.sqrt((count1 + 0.5) * (count2 + 0.5))
+-            std = 0.5 * np.sqrt(count1 + 0.5 + count2 + 0.5 - 0.25 * crit)
++            # this is a confidence interval for the ratio of the counts,
++            # it has to be rescaled by the exposures to get the rate ratio
++            std = 0.5 * np.sqrt(count1 + 0.5 + count2 + 0.5 - 0.25 * crit**2)
+             denom = count2 + 0.5 - 0.25 * crit**2
+ 
+             low_sqrt = (center - crit * std) / denom
+             upp_sqrt = (center + crit * std) / denom
+ 
+-            ci = (low_sqrt**2, upp_sqrt**2)
++            ci = (low_sqrt**2 * n2 / n1, upp_sqrt**2 * n2 / n1)
+ 
+         elif method == "mover":
+             method_p = method_mover
+@@ -2125,12 +2127,12 @@
+ 
+     References
+     ----------
+-    .. [1] Zhu, Haiyuan. 2017. “Sample Size Calculation for Comparing Two
++    .. [1] Zhu, Haiyuan. 2017. 鈥淪ample Size Calculation for Comparing Two
+        Poisson or Negative Binomial Rates in Noninferiority or Equivalence
+-       Trials.” Statistics in Biopharmaceutical Research, March.
++       Trials.鈥?Statistics in Biopharmaceutical Research, March.
+        https://doi.org/10.1080/19466315.2016.1225594
+-    .. [2] Zhu, Haiyuan, and Hassan Lakkis. 2014. “Sample Size Calculation for
+-       Comparing Two Negative Binomial Rates.” Statistics in Medicine 33 (3):
++    .. [2] Zhu, Haiyuan, and Hassan Lakkis. 2014. 鈥淪ample Size Calculation for
++       Comparing Two Negative Binomial Rates.鈥?Statistics in Medicine 33 (3):
+        376-87. https://doi.org/10.1002/sim.5947.
+     .. [3] PASS documentation
+     """
+@@ -2347,12 +2349,12 @@
+ 
+     References
+     ----------
+-    .. [1] Zhu, Haiyuan. 2017. “Sample Size Calculation for Comparing Two
++    .. [1] Zhu, Haiyuan. 2017. 鈥淪ample Size Calculation for Comparing Two
+        Poisson or Negative Binomial Rates in Noninferiority or Equivalence
+-       Trials.” Statistics in Biopharmaceutical Research, March.
++       Trials.鈥?Statistics in Biopharmaceutical Research, March.
+        https://doi.org/10.1080/19466315.2016.1225594
+-    .. [2] Zhu, Haiyuan, and Hassan Lakkis. 2014. “Sample Size Calculation for
+-       Comparing Two Negative Binomial Rates.” Statistics in Medicine 33 (3):
++    .. [2] Zhu, Haiyuan, and Hassan Lakkis. 2014. 鈥淪ample Size Calculation for
++       Comparing Two Negative Binomial Rates.鈥?Statistics in Medicine 33 (3):
+        376-87. https://doi.org/10.1002/sim.5947.
+     .. [3] PASS documentation
+     """
+@@ -2641,9 +2643,9 @@
+ 
+     References
+     ----------
+-    .. [1] Stucke, Kathrin, and Meinhard Kieser. 2013. “Sample Size
++    .. [1] Stucke, Kathrin, and Meinhard Kieser. 2013. 鈥淪ample Size
+        Calculations for Noninferiority Trials with Poisson Distributed Count
+-       Data.” Biometrical Journal 55 (2): 203-16.
++       Data.鈥?Biometrical Journal 55 (2): 203-16.
+        https://doi.org/10.1002/bimj.201200142.
+     .. [2] PASS manual chapter 436
+ 
+@@ -2868,12 +2870,12 @@
+ 
+     References
+     ----------
+-    .. [1] Zhu, Haiyuan. 2017. “Sample Size Calculation for Comparing Two
++    .. [1] Zhu, Haiyuan. 2017. 鈥淪ample Size Calculation for Comparing Two
+        Poisson or Negative Binomial Rates in Noninferiority or Equivalence
+-       Trials.” Statistics in Biopharmaceutical Research, March.
++       Trials.鈥?Statistics in Biopharmaceutical Research, March.
+        https://doi.org/10.1080/19466315.2016.1225594
+-    .. [2] Zhu, Haiyuan, and Hassan Lakkis. 2014. “Sample Size Calculation for
+-       Comparing Two Negative Binomial Rates.” Statistics in Medicine 33 (3):
++    .. [2] Zhu, Haiyuan, and Hassan Lakkis. 2014. 鈥淪ample Size Calculation for
++       Comparing Two Negative Binomial Rates.鈥?Statistics in Medicine 33 (3):
+        376-87. https://doi.org/10.1002/sim.5947.
+     .. [3] PASS documentation
+     """
+@@ -3024,12 +3026,12 @@
+ 
+     References
+     ----------
+-    .. [1] Zhu, Haiyuan. 2017. “Sample Size Calculation for Comparing Two
++    .. [1] Zhu, Haiyuan. 2017. 鈥淪ample Size Calculation for Comparing Two
+        Poisson or Negative Binomial Rates in Noninferiority or Equivalence
+-       Trials.” Statistics in Biopharmaceutical Research, March.
++       Trials.鈥?Statistics in Biopharmaceutical Research, March.
+        https://doi.org/10.1080/19466315.2016.1225594
+-    .. [2] Zhu, Haiyuan, and Hassan Lakkis. 2014. “Sample Size Calculation for
+-       Comparing Two Negative Binomial Rates.” Statistics in Medicine 33 (3):
++    .. [2] Zhu, Haiyuan, and Hassan Lakkis. 2014. 鈥淪ample Size Calculation for
++       Comparing Two Negative Binomial Rates.鈥?Statistics in Medicine 33 (3):
+        376-87. https://doi.org/10.1002/sim.5947.
+     .. [3] PASS documentation
+     """

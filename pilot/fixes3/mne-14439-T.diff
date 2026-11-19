@@ -1,0 +1,13 @@
+--- a/mne/io/base.py
++++ b/mne/io/base.py
+@@ -2252,6 +2252,10 @@
+             self._first_samps -= delta
+             self._last_samps -= delta
+             self._cropped_samp -= delta
++            # Annotation onsets are stored relative to meas_date (or to
++            # first_samp=0 when meas_date is None), so they must move along
++            # with the new time origin to stay attached to the same samples.
++            self._annotations.onset -= delta / self.info["sfreq"]
+         return self
+ 
+     @verbose_static()

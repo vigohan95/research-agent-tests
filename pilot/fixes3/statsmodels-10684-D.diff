@@ -1,0 +1,23 @@
+--- a/statsmodels/genmod/generalized_linear_model.py
++++ b/statsmodels/genmod/generalized_linear_model.py
+@@ -2195,6 +2195,10 @@
+ 
+         McFadden's pseudo-R-squared: 1 - (llf / llnull)
+ 
++        If ``freq_weights`` are used, ``nobs`` in the Cox-Snell formula is the
++        sum of the frequency weights (``model.wnobs``), so that the result
++        matches the fit on the expanded data.
++
+         Parameters
+         ----------
+         kind : {'cs', 'mcf'}, optional
+@@ -2209,7 +2213,8 @@
+         if kind.startswith("mcf"):
+             prsq = 1 - self.llf / self.llnull
+         elif kind.startswith("cox") or kind in ["cs", "lr"]:
+-            prsq = 1 - np.exp((self.llnull - self.llf) * (2 / self.nobs))
++            # use the number of observations implied by freq_weights
++            prsq = 1 - np.exp((self.llnull - self.llf) * (2 / self.model.wnobs))
+         else:
+             raise ValueError("only McFadden and Cox-Snell are available")
+         return prsq

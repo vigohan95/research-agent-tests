@@ -1,0 +1,22 @@
+--- a/esmvalcore/cmor/_fixes/icon/icon_xpp.py
++++ b/esmvalcore/cmor/_fixes/icon/icon_xpp.py
+@@ -44,12 +44,16 @@
+     def fix_metadata(self, cubes: CubeList) -> CubeList:
+         """Fix metadata.
+ 
+-        Convert photosynthesis flux from mol(co2) m-2 s-1 to kg m-2 s-1.
+-        Molar mass of CO2(kg) is 44.0095 g/mol
++        Convert photosynthesis flux from mol(CO2) m-2 s-1 to kg(C) m-2 s-1.
++
++        The CMOR variable ``gpp`` is a carbon mass flux (kgC m-2 s-1), so
++        each mole of CO2 assimilated corresponds to one mole of carbon, i.e.,
++        the molar mass of carbon (12.0107 g/mol) must be used here, not the
++        molar mass of CO2 (44.0095 g/mol).
+ 
+         """
+         cube = self.get_cube(cubes)
+-        cube.data = cube.core_data() * 44.0095 / 1000
++        cube.data = cube.core_data() * 12.0107 / 1000
+         cube.units = "kg m-2 s-1"
+         cube.attributes.pop("invalid_units", None)
+ 

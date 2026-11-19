@@ -1,0 +1,30 @@
+--- a/nilearn/glm/first_level/hemodynamic_models.py
++++ b/nilearn/glm/first_level/hemodynamic_models.py
+@@ -498,13 +498,25 @@
+     # Set up the regressor timecourse
+     tmax = len(frame_times_high_res)
+     regressor = np.zeros_like(frame_times_high_res).astype(np.float64)
++    # Times that fall on (or within floating point error of) a high
++    # resolution sample must map to that sample consistently. Otherwise,
++    # e.g., the offset of one event (onset + duration) and the onset of the
++    # next event, which should coincide, can be rounded to different samples
++    # and create spurious gaps or overlaps in the regressor.
++    if tmax > 1:
++        tolerance = 1e-6 * (frame_times_high_res[1] - frame_times_high_res[0])
++    else:
++        tolerance = 0.0
+     t_onset = np.minimum(
+-        np.searchsorted(frame_times_high_res, onsets), tmax - 1
++        np.searchsorted(frame_times_high_res, onsets - tolerance), tmax - 1
+     )
+     for t, v in zip(t_onset, values, strict=False):
+         regressor[t] += v
+     t_offset = np.minimum(
+-        np.searchsorted(frame_times_high_res, onsets + durations), tmax - 1
++        np.searchsorted(
++            frame_times_high_res, onsets + durations - tolerance
++        ),
++        tmax - 1,
+     )
+ 
+     # Handle the case where duration is 0 by offsetting at t + 1

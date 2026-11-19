@@ -1,0 +1,13 @@
+--- a/statsmodels/genmod/generalized_linear_model.py
++++ b/statsmodels/genmod/generalized_linear_model.py
+@@ -2209,7 +2209,9 @@
+         if kind.startswith("mcf"):
+             prsq = 1 - self.llf / self.llnull
+         elif kind.startswith("cox") or kind in ["cs", "lr"]:
+-            prsq = 1 - np.exp((self.llnull - self.llf) * (2 / self.nobs))
++            # use the effective number of observations, which accounts
++            # for frequency weights
++            prsq = 1 - np.exp((self.llnull - self.llf) * (2 / self.model.wnobs))
+         else:
+             raise ValueError("only McFadden and Cox-Snell are available")
+         return prsq

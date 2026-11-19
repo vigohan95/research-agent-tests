@@ -1,0 +1,13 @@
+--- a/numpyro/distributions/transforms.py
++++ b/numpyro/distributions/transforms.py
+@@ -1291,7 +1291,9 @@
+         intermediates: Optional[PyTree] = None,
+     ) -> NumLike:
+         # |dp/dc| = |dx/dy| = prod(ds/dy) = prod(expit'(y))
+-        # we know log derivative of expit(y) is `-softplus(y) - softplus(-y)`
++        # we know log derivative of expit(y) is `-softplus(y) - softplus(-y)`,
++        # evaluated at the un-anchored logits since s = expit(y - anchor_point)
++        y = y - jnp.expand_dims(self.anchor_point, -1)
+         J_logdet = (softplus(y) + softplus(-y)).sum(-1)
+         return J_logdet
+ 

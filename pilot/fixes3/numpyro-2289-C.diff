@@ -1,0 +1,22 @@
+--- a/numpyro/distributions/discrete.py
++++ b/numpyro/distributions/discrete.py
+@@ -1053,12 +1053,15 @@
+         of the discrete uniform distribution.
+ 
+         .. math::
+-            F^{-1}(u) = a + u\,(b - a + 1) - 1, \quad u \in [0, 1]
++            F^{-1}(u) = \min\{k \in \{a, \dots, b\} : F(k) \ge u\}
++            = a + \lceil u\,(b - a + 1) \rceil - 1, \quad \text{clipped to } [a, b]
+ 
+         :param q: Quantile level(s) :math:`u \in [0, 1]`.
+-        :return: The inverse CDF evaluated at ``q``.
+-        """
+-        return jnp.asarray(self.low + q * (self.high - self.low + 1) - 1)
++        :return: The integer-valued inverse CDF evaluated at ``q``.
++        """
++        n = self.high - self.low + 1
++        value = self.low + jnp.ceil(q * n) - 1
++        return jnp.clip(value, self.low, self.high)
+ 
+     @property
+     def mean(self) -> Array:

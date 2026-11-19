@@ -1,0 +1,20 @@
+--- a/statsmodels/stats/contingency_tables.py
++++ b/statsmodels/stats/contingency_tables.py
+@@ -1567,7 +1567,16 @@
+         pvalue = np.minimum(pvalue, 1)  # limit to 1 if n1==n2
+     else:
+         corr = int(correction)  # convert bool to 0 or 1
+-        statistic = (np.abs(n1 - n2) - corr) ** 2 / (1.0 * (n1 + n2))
++        n_disc = n1 + n2
++        if n_disc == 0:
++            # no discordant pairs: no evidence against the null,
++            # consistent with the exact test
++            statistic = 0.0
++        else:
++            # the continuity correction must not overshoot |n1 - n2|,
++            # otherwise balanced tables get a positive statistic
++            diff = np.maximum(np.abs(n1 - n2) - corr, 0)
++            statistic = diff**2 / (1.0 * n_disc)
+         df = 1
+         pvalue = stats.chi2.sf(statistic, df)
+ 

@@ -1,0 +1,41 @@
+--- a/networkx/algorithms/centrality/group.py
++++ b/networkx/algorithms/centrality/group.py
+@@ -143,15 +143,30 @@
+                     dxvy = 0
+                     dxyv = 0
+                     dvxy = 0
+-                    if not (
+-                        sigma_m[x][y] == 0 or sigma_m[x][v] == 0 or sigma_m[v][y] == 0
++                    # Each ratio is guarded separately: only the shortest-path
++                    # counts it uses must be nonzero (in directed graphs
++                    # sigma_m[a][b] and sigma_m[b][a] can differ).
++                    if (
++                        sigma_m[x][v]
++                        and sigma_m[x][y]
++                        and sigma_m[y][v]
++                        and D[x][v] == D[x][y] + D[y][v]
+                     ):
+-                        if D[x][v] == D[x][y] + D[y][v]:
+-                            dxyv = sigma_m[x][y] * sigma_m[y][v] / sigma_m[x][v]
+-                        if D[x][y] == D[x][v] + D[v][y]:
+-                            dxvy = sigma_m[x][v] * sigma_m[v][y] / sigma_m[x][y]
+-                        if D[v][y] == D[v][x] + D[x][y]:
+-                            dvxy = sigma_m[v][x] * sigma[x][y] / sigma[v][y]
++                        dxyv = sigma_m[x][y] * sigma_m[y][v] / sigma_m[x][v]
++                    if (
++                        sigma_m[x][y]
++                        and sigma_m[x][v]
++                        and sigma_m[v][y]
++                        and D[x][y] == D[x][v] + D[v][y]
++                    ):
++                        dxvy = sigma_m[x][v] * sigma_m[v][y] / sigma_m[x][y]
++                    if (
++                        sigma_m[v][y]
++                        and sigma_m[v][x]
++                        and sigma_m[x][y]
++                        and D[v][y] == D[v][x] + D[x][y]
++                    ):
++                        dvxy = sigma_m[v][x] * sigma_m[x][y] / sigma_m[v][y]
+                     sigma_m_v[x][y] = sigma_m[x][y] * (1 - dxvy)
+                     PB_m_v[x][y] = PB_m[x][y] - PB_m[x][y] * dxvy
+                     if y != v:

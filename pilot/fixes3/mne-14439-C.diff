@@ -1,0 +1,17 @@
+--- a/mne/io/base.py
++++ b/mne/io/base.py
+@@ -2252,6 +2252,14 @@
+             self._first_samps -= delta
+             self._last_samps -= delta
+             self._cropped_samp -= delta
++            # Stored annotation onsets include the first_time offset (relative
++            # to meas_date, or to sample 0 of the original timeline when
++            # meas_date is None), so shift them along with first_samp to keep
++            # them locked to the same data samples.
++            if delta != 0 and len(self._annotations):
++                self._annotations.onset = (
++                    self._annotations.onset - delta / self.info["sfreq"]
++                )
+         return self
+ 
+     @verbose_static()

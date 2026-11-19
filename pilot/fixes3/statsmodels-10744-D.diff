@@ -1,0 +1,30 @@
+--- a/statsmodels/regression/_prediction.py
++++ b/statsmodels/regression/_prediction.py
+@@ -176,6 +176,17 @@
+         variance and can on demand calculate confidence intervals and summary
+         tables for the prediction of the mean and of new observations.
+ 
++    Notes
++    -----
++    With ``use_t=True``, the degrees of freedom of the t distribution are
++    ``df_resid_inference`` if the results define it, for example the number
++    of groups minus one for ``cov_type="cluster"``, and ``df_resid``
++    otherwise, as in ``t_test``.
++
++    .. versionchanged:: 0.15.1
++
++       The degrees of freedom are ``df_resid_inference`` instead of
++       ``df_resid`` if the results define it.
+     """
+     # prepare exog and row_labels, based on base Results.predict
+     # without exog, predict must use the model's offset and exposure
+@@ -235,6 +246,8 @@
+         var_resid /= weights
+ 
+     dist = ["norm", "t"][self.use_t]
++    # cluster robust covariances use a smaller df for t-based inference
++    df = getattr(self, "df_resid_inference", self.df_resid)
+     return PredictionResults(predicted_mean, var_pred_mean, var_resid,
+-                             df=self.df_resid, dist=dist,
++                             df=df, dist=dist,
+                              row_labels=row_labels)

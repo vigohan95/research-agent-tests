@@ -1,0 +1,12 @@
+--- a/mne/time_frequency/multitaper.py
++++ b/mne/time_frequency/multitaper.py
+@@ -480,7 +480,8 @@
+             psd[start:stop] = x_mt[:, :, freq_mask]
+ 
+     if normalization == "full":
+-        psd /= sfreq
++        # complex coefficients are squared to get power, so scale by sqrt
++        psd /= sfreq if output == "power" else np.sqrt(sfreq)
+ 
+     # Combining/reshaping to original data shape
+     last_dims = (n_freqs,) if output == "power" else (n_tapers, n_freqs)

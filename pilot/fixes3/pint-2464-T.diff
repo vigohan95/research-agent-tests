@@ -1,0 +1,52 @@
+--- a/pint/facets/numpy/numpy_func.py
++++ b/pint/facets/numpy/numpy_func.py
+@@ -317,6 +317,19 @@
+             )
+ 
+         first_input_units = _get_first_input_units(args, kwargs)
++        if func_str in remainder_ufuncs:
++            # The remainder depends on the operands' magnitudes being expressed in
++            # the same unit, so convert compatible quantities to the first input
++            # unit before stripping (e.g. m % cm). Incompatible ones keep the
++            # previous strip-only behavior.
++            args = tuple(
++                arg.to(first_input_units)
++                if _is_quantity(arg)
++                and arg.units != first_input_units
++                and arg.is_compatible_with(first_input_units)
++                else arg
++                for arg in args
++            )
+         if input_units is None and _is_quantity(kwargs.get("initial")):
+             # Unlike amax/amin, this path doesn't convert a Quantity `initial`.
+             kwargs = {**kwargs, "initial": kwargs["initial"].m_as(first_input_units)}
+@@ -384,6 +397,8 @@
+   outputs are set to that unit
+ - `copy_units_output_ufuncs`: input units (except the first) are ignored, and output is
+   set to that of the first input unit
++- `remainder_ufuncs`: quantity inputs dimensionally compatible with the first input unit
++  are converted to it (as the `%` operator does); output is set to the first input unit
+ - `op_units_output_ufuncs`: determine output unit from input unit as determined by
+   operation (see `get_op_output_unit`)
+ """
+@@ -461,7 +476,8 @@
+     "minimum",
+     "fabs",
+ ]
+-copy_units_output_ufuncs = ["ldexp", "fmod", "mod", "remainder"]
++copy_units_output_ufuncs = ["ldexp"]
++remainder_ufuncs = ["fmod", "mod", "remainder"]
+ op_units_output_ufuncs = {
+     "var": "variance",
+     "multiply": "mul",
+@@ -525,8 +541,8 @@
+         "ufunc", ufunc_str, input_units="all_consistent", output_unit="match_input"
+     )
+ 
+-for ufunc_str in copy_units_output_ufuncs:
+-    # Output as first unit in arguments, but do not convert inputs
++for ufunc_str in copy_units_output_ufuncs + remainder_ufuncs:
++    # Output as first unit in arguments; remainder ufuncs convert compatible inputs
+     implement_func("ufunc", ufunc_str, input_units=None, output_unit="match_input")
+ 
+ for ufunc_str, unit_op in op_units_output_ufuncs.items():

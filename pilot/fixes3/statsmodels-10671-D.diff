@@ -1,0 +1,42 @@
+--- a/statsmodels/stats/contingency_tables.py
++++ b/statsmodels/stats/contingency_tables.py
+@@ -1510,7 +1510,19 @@
+         test statistic for large sample sizes.
+     correction : bool, optional
+         If True, then a continuity correction is used for the chisquare
+-        distribution (if exact is False.)
++        distribution (if exact is False.) As in R's ``mcnemar.test``, the
++        correction of 1 is applied only if ``|n1 - n2| >= 1``, where n1 and
++        n2 are the off-diagonal counts. Otherwise the statistic is not
++        corrected.
++
++        .. versionchanged:: 0.15.1
++
++           The correction is no longer applied if ``|n1 - n2|`` is smaller
++           than 1. Previously it was always subtracted, so that tables with
++           equal off-diagonal counts had a positive statistic and a p-value
++           below 1. If both off-diagonal counts are zero, the chisquare
++           statistic and p-value are now nan instead of inf and 0 when the
++           correction is used.
+ 
+     Returns
+     -------
+@@ -1567,7 +1579,17 @@
+         pvalue = np.minimum(pvalue, 1)  # limit to 1 if n1==n2
+     else:
+         corr = int(correction)  # convert bool to 0 or 1
+-        statistic = (np.abs(n1 - n2) - corr) ** 2 / (1.0 * (n1 + n2))
++        diff = np.abs(n1 - n2)
++        # The continuity correction must not overshoot zero; as in R's
++        # mcnemar.test it is only applied if the discordant counts differ
++        if corr and diff >= 1:
++            diff -= 1
++        n_discordant = n1 + n2
++        if n_discordant > 0:
++            statistic = diff**2 / n_discordant
++        else:
++            # no discordant pairs: the statistic is 0/0, as in R
++            statistic = np.nan
+         df = 1
+         pvalue = stats.chi2.sf(statistic, df)
+ 
