@@ -15,7 +15,10 @@
     ],
     "test_dir": "networkx/algorithms/centrality/tests",
     "symptom": "networkx.group_betweenness_centrality returns wrong values on some undirected, connected graphs. In a case where no shortest path between two nodes outside the group passes through the group, the group betweenness should be 0, but the function returns a positive value (0.125 in the reporter's example). The results for a group of several nodes are therefore not trustworthy.",
-    "symptom_vague": "We rank small sets of people in an undirected collaboration network by how much they broker between everyone else, using networkx's group betweenness centrality. Some groups that sit at the edge of the network, and that no one else needs to go through, still get a clearly positive score, so peripheral groups end up ranked above central ones."
+    "symptom_vague": "We rank small sets of people in an undirected collaboration network by how much they broker between everyone else, using networkx's group betweenness centrality. Some groups that sit at the edge of the network, and that no one else needs to go through, still get a clearly positive score, so peripheral groups end up ranked above central ones.",
+    "guidance_files": [
+      "AGENTS.md"
+    ]
   },
   {
     "id": "networkx-8906",
@@ -33,7 +36,10 @@
     ],
     "test_dir": "networkx/algorithms/tests",
     "symptom": "networkx.effective_size (Burt's structural holes measure) gives different numbers for the same weighted graph depending on whether the nodes= keyword is passed. effective_size(G, weight='weight') and effective_size(G, nodes=list(G), weight='weight') disagree on weighted undirected graphs and on directed graphs. Published reference values (UCINET, igraph) match the result obtained with nodes= passed. Unweighted undirected graphs look fine.",
-    "symptom_vague": "Our structural-holes analysis of a weighted, directed trade network uses networkx's effective size measure, computed once for the whole graph. A collaborator ran the same data through UCINET and got different effective sizes for most countries. On an unweighted, undirected toy network the two tools agree."
+    "symptom_vague": "Our structural-holes analysis of a weighted, directed trade network uses networkx's effective size measure, computed once for the whole graph. A collaborator ran the same data through UCINET and got different effective sizes for most countries. On an unweighted, undirected toy network the two tools agree.",
+    "guidance_files": [
+      "AGENTS.md"
+    ]
   },
   {
     "id": "pint-2464",
@@ -51,7 +57,8 @@
     ],
     "test_dir": "pint/testsuite",
     "symptom": "With pint Quantities, NumPy's modulo-style functions give wrong answers when the two operands have compatible but different units. For x1 = 7 m and x2 = 200 cm, the operators x1 % x2 and x1 // x2 give the right answers, but calling the NumPy functions (np.mod and related remainder / floor-division functions) on the same quantities gives different, wrong results.",
-    "symptom_vague": "A unit-aware simulation (pint quantities inside NumPy arrays) wraps vehicle positions onto a circular track with NumPy's vectorised remainder functions. When the positions are stored in metres and the track length in centimetres, the wrapped positions are wrong; doing the same arithmetic with the % operator, or with both values in the same unit, gives the expected answer."
+    "symptom_vague": "A unit-aware simulation (pint quantities inside NumPy arrays) wraps vehicle positions onto a circular track with NumPy's vectorised remainder functions. When the positions are stored in metres and the track length in centimetres, the wrapped positions are wrong; doing the same arithmetic with the % operator, or with both values in the same unit, gives the expected answer.",
+    "guidance_files": []
   },
   {
     "id": "xarray-11817",
@@ -69,7 +76,15 @@
     ],
     "test_dir": "xarray/tests",
     "symptom": "DataArray.str.zfill in xarray handles signed numbers differently from Python's str.zfill, numpy.strings.zfill and pandas' Series.str.zfill. For values such as '-12' and '+7', the zero padding ends up in the wrong place relative to the sign, so zero-padded identifiers or numeric strings built with xarray do not match what the other libraries produce.",
-    "symptom_vague": "We build fixed-width station identifiers from a DataArray of strings with xarray's string accessor (zero padding) and join them against identifiers built by our pandas pipeline from the same raw codes. Stations whose raw codes carry a leading sign character never match, so the join silently drops them."
+    "symptom_vague": "We build fixed-width station identifiers from a DataArray of strings with xarray's string accessor (zero padding) and join them against identifiers built by our pandas pipeline from the same raw codes. Stations whose raw codes carry a leading sign character never match, so the join silently drops them.",
+    "guidance_files": [
+      ".claude/skills/drop-python-version/SKILL.md",
+      ".claude/skills/upgrade-min-versions/SKILL.md",
+      "AGENTS.md",
+      "CLAUDE.md",
+      "xarray/tests/AGENTS.md",
+      "xarray/tests/CLAUDE.md"
+    ]
   },
   {
     "id": "mne-14439",
@@ -87,6 +102,332 @@
     ],
     "test_dir": "mne/io/tests",
     "symptom": "In MNE-Python, cropping a Raw recording with raw.crop(tmin, tmax, reset_first_samp=True) leaves the annotations out of step with the data: after the crop, annotation onsets no longer point at the same signal samples they pointed at before the crop. With reset_first_samp=False the annotations stay aligned. Related reports mention wrong data being read from non-preloaded files and a wrong first_samp on concatenated recordings after such a crop.",
-    "symptom_vague": "In MNE-Python we trim the start of a continuous EEG recording and reset its time origin so the trimmed recording starts at sample zero, then epoch around the annotated stimulus events. The event-related averages come out smeared and shifted compared with epoching the untrimmed recording around the same events. Without resetting the time origin the averages look right."
+    "symptom_vague": "In MNE-Python we trim the start of a continuous EEG recording and reset its time origin so the trimmed recording starts at sample zero, then epoch around the annotated stimulus events. The event-related averages come out smeared and shifted compared with epoching the untrimmed recording around the same events. Without resetting the time origin the averages look right.",
+    "guidance_files": [
+      "AGENTS.md",
+      "CLAUDE.md"
+    ]
+  },
+  {
+    "id": "numpyro-2431",
+    "repo": "numpyro",
+    "url": "https://github.com/pyro-ppl/numpyro/pull/2431",
+    "merged": "2026-11-15",
+    "kind": "wrong numeric result",
+    "buggy": "3728ea15d04e17346f33899c761525524360090d",
+    "fixed": "e41068aa9107e15835c08779c165a8b2d961722b",
+    "src_files": [
+      "numpyro/distributions/util.py"
+    ],
+    "ref_tests": [
+      "test/test_distributions_util.py::test_cholesky_update_large_vector",
+      "test/infer/test_mcmc.py::test_get_proposal_loc_and_scale"
+    ],
+    "test_dir": "test",
+    "symptom": "numpyro.distributions.util.cholesky_update(L, x, coef) returns a wrong Cholesky factor of L L^T + coef x x^T for dimension 2 and up: the running scalar of the rank-one update stays at 1, so every column after the first is updated with the wrong weight. The error is only small when coef * x x^T is a tiny perturbation. The SA sampler uses it for its leave-one-out proposal scales with dense_mass=True (the default), so SA samples the wrong distribution: on a 3-d standard normal target it returns marginal variances of about 0.89, 0.82 and 0.72 instead of 1.",
+    "symptom_vague": "We fit a few small models with NumPyro's SA sampler because our likelihood has no gradients. As a sanity check we ran it on a plain 3-dimensional standard normal, and the posterior variances come out clearly below 1 (roughly 0.7 to 0.9) no matter how long we run, while switching to a diagonal mass setting gives variances close to 1. Our real posteriors therefore look overconfident.",
+    "venv": ".venv-numpyro",
+    "guidance_files": [
+      "AGENTS.md"
+    ]
+  },
+  {
+    "id": "numpyro-2369",
+    "repo": "numpyro",
+    "url": "https://github.com/pyro-ppl/numpyro/pull/2369",
+    "merged": "2026-10-20",
+    "kind": "wrong numeric result",
+    "buggy": "9cca65577e84ee800b419fc4ae244eefd599f2d0",
+    "fixed": "d100192c70300539b807d9dae74760a0aa847b6a",
+    "src_files": [
+      "numpyro/distributions/continuous.py"
+    ],
+    "ref_tests": [
+      "test/test_distributions.py::test_inverse_wishart_variance"
+    ],
+    "test_dir": "test",
+    "symptom": "InverseWishart.variance evaluates (Psi_ij^2 + Psi_ii Psi_jj) / ((nu-p-1)^2 (nu-p-3)) for every entry. That is only right on the diagonal; the exact off-diagonal variance is ((nu-p+1) Psi_ij^2 + (nu-p-1) Psi_ii Psi_jj) / ((nu-p) (nu-p-1)^2 (nu-p-3)), as in scipy.stats.invwishart.var(). Off-diagonal entries are wrong by about 9% at nu=10, p=2 (0.014857 vs 0.013653) and by up to 40% at nu=6.5, p=3.",
+    "symptom_vague": "We use an inverse-Wishart prior on a covariance matrix in NumPyro and report the prior spread of each entry from the distribution's analytic moments. For the variances on the diagonal the numbers match a large Monte Carlo draw and SciPy, but for the covariances between different variables the reported spread is too large, by tens of percent when the degrees of freedom are small.",
+    "venv": ".venv-numpyro",
+    "guidance_files": [
+      "AGENTS.md"
+    ]
+  },
+  {
+    "id": "numpyro-2372",
+    "repo": "numpyro",
+    "url": "https://github.com/pyro-ppl/numpyro/pull/2372",
+    "merged": "2026-10-19",
+    "kind": "wrong numeric result",
+    "buggy": "121df60a669f854893943d09e4d82f7812a7fb2b",
+    "fixed": "2d674fada8cde2059baa9e39138983103c3db9ef",
+    "src_files": [
+      "numpyro/distributions/transforms.py"
+    ],
+    "ref_tests": [
+      "test/test_distributions.py::test_simplex_to_ordered_log_prob"
+    ],
+    "test_dir": "test",
+    "symptom": "SimplexToOrderedTransform(anchor_point) maps a simplex x to ordered cutpoints y = logit(cumsum(x[:-1])) + anchor_point, but log_abs_det_jacobian evaluates the logistic derivative at y instead of y - anchor_point. With a nonzero anchor the Jacobian, and so the log_prob of a Dirichlet prior pushed through the transform (the usual induced-Dirichlet prior on ordinal cutpoints), is wrong: for alpha=[2,3,4,5], p=[0.3,0.1,0.4,0.2] and anchor 2 it gives -5.225 instead of -2.927; with anchor 0 it is correct.",
+    "symptom_vague": "We fit an ordinal regression in NumPyro with the induced-Dirichlet prior on the cutpoints, built from the transform that turns category probabilities into ordered cutpoints. When we shift the cutpoints with a nonzero anchor, the prior log density changes and the posterior for the cutpoints moves, although shifting by a constant should only relabel the cutpoints. With the anchor at zero everything matches our hand-computed density.",
+    "venv": ".venv-numpyro",
+    "guidance_files": [
+      "AGENTS.md"
+    ]
+  },
+  {
+    "id": "numpyro-2289",
+    "repo": "numpyro",
+    "url": "https://github.com/pyro-ppl/numpyro/pull/2289",
+    "merged": "2026-09-27",
+    "kind": "wrong numeric result",
+    "buggy": "a39b7ae6a6502e02f158a60136d4e19bc37f3d9f",
+    "fixed": "cf59574e8cfd69e9fdd4620d7547a7b8b50700fd",
+    "src_files": [
+      "numpyro/distributions/discrete.py"
+    ],
+    "ref_tests": [
+      "test/test_distributions.py::test_discrete_uniform_icdf"
+    ],
+    "test_dir": "test",
+    "symptom": "DiscreteUniform.icdf uses the continuous formula low + q * (high - low + 1) - 1, so it returns non-integer values and values below low for q < 1/(high - low + 1): DiscreteUniform(2, 7).icdf([0.05, 0.2, 0.5, 0.95]) gives [1.3, 2.2, 4.0, 6.7] instead of [2, 3, 4, 7] (scipy.stats.randint(2, 8).ppf).",
+    "symptom_vague": "We draw integer-valued design variables by inverse-transform sampling from NumPyro's discrete uniform distribution, feeding quasi-random numbers through its quantile function. The values we get back are fractional and some fall below the lower end of the allowed range, so after rounding the categories are not used equally often and our design is unbalanced.",
+    "venv": ".venv-numpyro",
+    "guidance_files": [
+      "AGENTS.md"
+    ]
+  },
+  {
+    "id": "ESMValCore-3291",
+    "repo": "ESMValCore",
+    "url": "https://github.com/ESMValGroup/ESMValCore/pull/3291",
+    "merged": "2026-11-11",
+    "kind": "wrong selection of data",
+    "buggy": "76c997d5721e1da076af1ad84cea0f45439b3677",
+    "fixed": "1355e90f1be45681e39efff228633c79efcb7fc3",
+    "src_files": [
+      "esmvalcore/preprocessor/_mask.py"
+    ],
+    "ref_tests": [
+      "tests/unit/preprocessor/_mask/test_mask.py"
+    ],
+    "test_dir": "tests/unit/preprocessor/_mask",
+    "symptom": "The preprocessor function mask_fillvalues ignores min_value when it is 0. Its helper count_spells tests `if not threshold:`, so a threshold of 0 is treated like None (no thresholding): every valid point counts as a hit instead of only points with value > 0. With min_value: 0 the resulting multi-model missing-value mask is the same as with no minimum value at all, so grid cells that should be masked (e.g. never above zero) are kept. Any non-zero min_value works correctly.",
+    "symptom_vague": "We use ESMValCore's missing-value masking step to build a common mask across precipitation datasets, keeping only grid cells where enough time steps exceed a lower cutoff; for daily rain we set that cutoff to zero so that cells which never rain are dropped. The resulting mask is exactly the same as with no cutoff at all, and desert cells survive. With a cutoff of 0.001 the same cells are masked as expected.",
+    "venv": ".venv-esmval",
+    "guidance_files": [
+      "AGENTS.md",
+      "CLAUDE.md"
+    ]
+  },
+  {
+    "id": "ESMValCore-3192",
+    "repo": "ESMValCore",
+    "url": "https://github.com/ESMValGroup/ESMValCore/pull/3192",
+    "merged": "2026-08-10",
+    "kind": "wrong unit conversion",
+    "buggy": "b05267e9ff03f633d9880a04c51e7a5dd738ef63",
+    "fixed": "b22d2bdec8e139a42efe430e2e8a43e4e9dbc8b7",
+    "src_files": [
+      "esmvalcore/cmor/_fixes/icon/icon_xpp.py"
+    ],
+    "ref_tests": [
+      "tests/integration/cmor/_fixes/icon/test_icon_xpp.py"
+    ],
+    "test_dir": "tests/integration/cmor/_fixes/icon",
+    "symptom": "The ICON-XPP CMOR fix for gpp converts the native photosynthesis flux in mol(CO2) m-2 s-1 by multiplying with the molar mass of CO2 (44.0095 g/mol / 1000), which gives kg CO2 m-2 s-1, but labels it as the CMOR unit kg m-2 s-1 meaning kg of carbon. Since one mol CO2 contains one mol C, the factor should be the molar mass of carbon (12.011 g/mol / 1000). GPP from ICON-XPP is therefore too large by a factor of about 3.66.",
+    "symptom_vague": "We compare gross primary productivity from the ICON-XPP land output, read through ESMValCore, with other CMIP models and with observation-based estimates. ICON's spatial pattern and seasonal cycle look reasonable, but its global annual total is several times larger than every other model and the observational range, and the factor is the same everywhere.",
+    "venv": ".venv-esmval",
+    "guidance_files": []
+  },
+  {
+    "id": "statsmodels-10660",
+    "repo": "statsmodels",
+    "url": "https://github.com/statsmodels/statsmodels/pull/10660",
+    "merged": "2026-11-04",
+    "kind": "wrong numeric result",
+    "buggy": "f5d96d7a1d6958243a15990034c9f54f3463c105",
+    "fixed": "d3bac713d47b5788ca81d471c1771b6e27b78089",
+    "src_files": [
+      "statsmodels/stats/rates.py"
+    ],
+    "ref_tests": [
+      "statsmodels/stats/tests/test_rates_poisson.py"
+    ],
+    "test_dir": "statsmodels/stats/tests",
+    "symptom": "statsmodels.stats.rates.confint_poisson_2indep(..., method='sqrtcc', compare='ratio') returns a confidence interval for the ratio of the counts, not of the rates: exposure1 and exposure2 are ignored (the other methods rescale by n2/n1), and the Fieller discriminant uses 0.25*crit instead of 0.25*crit**2. For counts 41 and 15 with exposures 2969 and 1106, 'score' and 'mover' give about (0.57, 1.82) around a rate ratio of 1.018, while 'sqrtcc' gives (1.532, 5.067), which excludes 1, and the interval does not change when the exposures are multiplied by 1000. Coverage of the nominal 95% interval in simulation is about 47%.",
+    "symptom_vague": "We compare incidence rates between two cohorts with very different person-years using statsmodels' two-sample Poisson confidence intervals for the rate ratio. With one of the available interval methods the interval lies far from the point estimate and excludes 1, while the other methods give a wide interval around 1.02. Changing the follow-up time of the cohorts does not move that method's interval at all.",
+    "venv": ".venv-statsmodels",
+    "guidance_files": [
+      "AGENTS.md"
+    ]
+  },
+  {
+    "id": "statsmodels-10671",
+    "repo": "statsmodels",
+    "url": "https://github.com/statsmodels/statsmodels/pull/10671",
+    "merged": "2026-11-06",
+    "kind": "wrong statistical test result",
+    "buggy": "ddd3a160eed5777a5340a71a732025afc78be440",
+    "fixed": "772cb34aff9e95f5c3eb10f1fe1ff6cd393daa69",
+    "src_files": [
+      "statsmodels/stats/contingency_tables.py"
+    ],
+    "ref_tests": [
+      "statsmodels/stats/tests/test_contingency_tables.py"
+    ],
+    "test_dir": "statsmodels/stats/tests",
+    "symptom": "statsmodels.stats.contingency_tables.mcnemar(table, exact=False) with the default correction=True applies the continuity correction (|n1 - n2| - 1)**2 / (n1 + n2) also when the two discordant counts are equal. [[5, 4], [4, 5]] gives a statistic of 0.125 instead of 0, and with no discordant pairs ([[5, 0], [0, 5]]) the statistic is inf and the p-value 0.0, the strongest possible rejection, while the exact test gives 1.0. R's mcnemar.test only corrects when the counts differ (statistic 0, p-value 1; NaN if both are 0).",
+    "symptom_vague": "We test paired before/after classifications with statsmodels' McNemar test using the chi-square approximation and its default settings. For tables where the two kinds of disagreement occur equally often, the statistic is not zero and the p-value is below 1, and a table with no disagreements at all comes out as a maximally significant change. The exact version of the test and R report no evidence of a difference for the same tables.",
+    "venv": ".venv-statsmodels",
+    "guidance_files": [
+      "AGENTS.md"
+    ]
+  },
+  {
+    "id": "statsmodels-10684",
+    "repo": "statsmodels",
+    "url": "https://github.com/statsmodels/statsmodels/pull/10684",
+    "merged": "2026-11-05",
+    "kind": "wrong numeric result",
+    "buggy": "d209dd0648c54e6a8c0b88a0b3a062816f38a452",
+    "fixed": "8aa8177f7b9745988be6589f1f6f133a512a000d",
+    "src_files": [
+      "statsmodels/genmod/generalized_linear_model.py"
+    ],
+    "ref_tests": [
+      "statsmodels/genmod/tests/test_glm_weights.py"
+    ],
+    "test_dir": "statsmodels/genmod/tests",
+    "symptom": "GLMResults.pseudo_rsquared(kind='cs') (the 'Pseudo R-squ. (CS)' line of summary()) divides by self.nobs, the number of rows, even when the model has freq_weights; llf and llnull are sums over the frequency-weighted observations, so the exponent must use model.wnobs (the sum of the weights), as BIC already does. In the reporter's binomial example the weighted fit gives 0.5171 while the same data with rows repeated by their weights gives 0.1233, although llf and llnull agree. McFadden's version is unaffected.",
+    "symptom_vague": "We fit a logistic GLM in statsmodels on aggregated data, passing the number of identical respondents per row as frequency weights. The Cox-Snell pseudo R-squared in the summary is several times larger than when we fit the same model on the expanded individual-level data, even though the coefficients and log-likelihoods are identical. The McFadden pseudo R-squared agrees between the two fits.",
+    "venv": ".venv-statsmodels",
+    "guidance_files": [
+      "AGENTS.md"
+    ]
+  },
+  {
+    "id": "statsmodels-10744",
+    "repo": "statsmodels",
+    "url": "https://github.com/statsmodels/statsmodels/pull/10744",
+    "merged": "2026-11-16",
+    "kind": "wrong numeric result",
+    "buggy": "0160631a4c3b3d44603ea71710d4d11ac5e721dc",
+    "fixed": "59b376867d277baed05c871c5f1e1a54898bfec7",
+    "src_files": [
+      "statsmodels/base/_prediction_inference.py",
+      "statsmodels/regression/_prediction.py"
+    ],
+    "ref_tests": [
+      "statsmodels/regression/tests/test_predict.py"
+    ],
+    "test_dir": "statsmodels/regression/tests",
+    "symptom": "With cov_type='cluster' and use_t=True, conf_int, t_test and pvalues use the t distribution with n_groups - 1 degrees of freedom (df_resid_inference), but get_prediction (summary_frame / conf_int of the prediction results) uses df_resid. The confidence and prediction intervals of the predicted mean are therefore too narrow, e.g. [1.012, 3.281] instead of [0.845, 3.448] for an OLS model with 10 clusters, where t_test of the same linear combination gives the latter; 95% coverage in simulation was 89.0%. Affects OLS/WLS/GLS, GLM and discrete models.",
+    "symptom_vague": "We fit a regression with cluster-robust standard errors on data from ten sites and ask for t-based inference. The interval we compute by hand for a predicted value with a linear contrast test is clearly wider than the interval statsmodels reports for the same prediction, and in a simulation the reported 95% intervals for predictions cover the truth only about 89% of the time. Intervals for the coefficients look fine.",
+    "venv": ".venv-statsmodels",
+    "guidance_files": [
+      "AGENTS.md"
+    ]
+  },
+  {
+    "id": "nilearn-6611",
+    "repo": "nilearn",
+    "url": "https://github.com/nilearn/nilearn/pull/6611",
+    "merged": "2026-09-29",
+    "kind": "wrong statistic",
+    "buggy": "a90b7787266abe41d2004cb5579abf5b0e01252f",
+    "fixed": "a01cefe29e4ea05ef3fff094e490d95c6989e666",
+    "src_files": [
+      "nilearn/glm/regression.py"
+    ],
+    "ref_tests": [
+      "nilearn/glm/tests/test_regression.py"
+    ],
+    "test_dir": "nilearn/glm/tests",
+    "symptom": "nilearn's OLSModel (and ARModel, which inherits fit) computes the residual variance (dispersion) by dividing the residual sum of squares by n - n_columns instead of n - rank(design). For a rank-deficient design (e.g. one dummy column per group plus an intercept) the dispersion is inflated and t/F statistics shrink by sqrt((n - p) / (n - rank)): with 24 subjects and one redundant column, t is about 2.3% too small (t / scipy.stats.ttest_ind = 0.977) and the test is conservative, while df_residuals already uses the rank.",
+    "symptom_vague": "We run a second-level group comparison in nilearn with one indicator column per group plus an intercept, a common way to write that design. The group-difference t-maps come out slightly weaker than a plain two-sample t-test on the same voxel values and fewer voxels survive thresholding; writing the same comparison without the extra intercept column makes the two agree exactly.",
+    "venv": ".venv-nilearn",
+    "guidance_files": [
+      "AGENTS.md",
+      "CLAUDE.md"
+    ]
+  },
+  {
+    "id": "nilearn-6722",
+    "repo": "nilearn",
+    "url": "https://github.com/nilearn/nilearn/pull/6722",
+    "merged": "2026-11-18",
+    "kind": "numerical tolerance",
+    "buggy": "8a558ba11867c5f1ae91f3abe4ca5a831d419e7e",
+    "fixed": "b987dc05dccd184e95b997cb0174ffa942b382e6",
+    "src_files": [
+      "nilearn/glm/first_level/hemodynamic_models.py"
+    ],
+    "ref_tests": [
+      "nilearn/glm/tests/test_hemodynamic_models.py"
+    ],
+    "test_dir": "nilearn/glm/tests",
+    "symptom": "nilearn.glm.first_level.compute_regressor (via _sample_condition) assigns onsets/offsets that fall exactly on frame-time grid points to the next grid point because of floating-point error in np.searchsorted. For dense inputs (one event per volume, duration = TR) a constant amplitude of 1 should convolve to a flat regressor at 1.0 after the initial rise, but with oversampling=1 and min_onset=0 it ripples with an SD of about 0.12-0.23 (TR 2.4 s, 504 volumes: SD about 0.15); with default settings the ripple is small but non-zero.",
+    "symptom_vague": "We add a continuous physiological trace to our nilearn first-level design by entering every volume as its own event, lasting one TR, with the trace value as its amplitude, then convolving with the HRF. As a sanity check, a trace of all ones should give a flat regressor after the initial rise, but ours keeps rippling up and down for the whole run, and the ripple pattern changes with the TR and the number of volumes.",
+    "venv": ".venv-nilearn",
+    "guidance_files": [
+      "AGENTS.md",
+      "CLAUDE.md"
+    ]
+  },
+  {
+    "id": "mne-14497",
+    "repo": "mne-python-r3",
+    "url": "https://github.com/mne-tools/mne-python/pull/14497",
+    "merged": "2026-11-05",
+    "kind": "wrong scaling",
+    "buggy": "d7548ee6f8abd1df6a3fbf432079cd10a38102c3",
+    "fixed": "b4f1de0ac024c04283689a473e99539af9b3689a",
+    "src_files": [
+      "mne/time_frequency/multitaper.py"
+    ],
+    "ref_tests": [
+      "mne/time_frequency/tests/test_psd.py"
+    ],
+    "test_dir": "mne/time_frequency/tests",
+    "symptom": "mne.time_frequency.psd_array_multitaper with normalization='full' divides the output by sfreq for both output='power' and output='complex'. Complex coefficients are amplitudes and should be divided by sqrt(sfreq), so power recomputed from the complex coefficients (e.g. with _psd_from_mt, or in Spectrum objects/plots built from complex multitaper output) is too small by a factor of 1/sfreq (0.01 at 100 Hz) compared with output='power'. normalization='length' is unaffected.",
+    "symptom_vague": "We compute multitaper power spectral densities in MNE-Python and also keep the per-taper complex spectra so we can compute our own cross-spectral measures. When we rebuild power from the complex spectra it is far smaller than the PSD MNE returns directly for the same data, and the mismatch only appears when we ask for density-normalised spectra; with the default normalisation the two match.",
+    "venv": ".venv-mne-python-r3",
+    "guidance_files": [
+      "AGENTS.md",
+      "CLAUDE.md"
+    ]
+  },
+  {
+    "id": "pyvista-9340",
+    "repo": "pyvista",
+    "url": "https://github.com/pyvista/pyvista/pull/9340",
+    "merged": "2026-09-25",
+    "kind": "wrong coordinates",
+    "buggy": "6a4877b79905112349bc70480636378b21fd3569",
+    "fixed": "472c23201c67543207d0257965b6c780b2544825",
+    "src_files": [
+      "pyvista/core/filters/image_data.py"
+    ],
+    "ref_tests": [
+      "tests/core/test_imagedata_filters.py"
+    ],
+    "test_dir": "tests/core",
+    "symptom": "pyvista ImageData.points_to_cells and cells_to_points shift the origin of the re-meshed image by half a voxel in index space without applying the image's direction matrix. For any image with a non-identity direction matrix the output points do not coincide with the input cell centers (and vice versa), and filters built on them are displaced, e.g. contour_labels on cell data of an image rotated 30 degrees with unit spacing is off by 0.317.",
+    "symptom_vague": "We load oblique medical image volumes into PyVista as image grids with a rotated orientation and convert our segmentation labels between voxel-centred and grid-point representations before extracting label surfaces. On axis-aligned scans the surfaces sit exactly on the anatomy, but on oblique scans they come out displaced by a fraction of a voxel compared with doing the same steps on the unrotated volume and rotating the result afterwards.",
+    "venv": ".venv-pyvista",
+    "guidance_files": [
+      ".claude/skills/pyvista-dev/SKILL.md",
+      ".claude/skills/pyvista-doc-images/SKILL.md",
+      ".claude/skills/pyvista-doc-images/scripts/match_doc_images.py",
+      ".claude/skills/pyvista-docs-style/SKILL.md",
+      ".claude/skills/pyvista-pr/SKILL.md",
+      ".claude/skills/pyvista-review/SKILL.md",
+      ".claude/skills/pyvista-testing/SKILL.md",
+      ".claude/skills/pyvista-vtk/SKILL.md",
+      ".github/copilot-instructions.md",
+      "AGENTS.md",
+      "CLAUDE.md"
+    ]
   }
 ]

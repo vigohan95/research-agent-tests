@@ -6,7 +6,7 @@ fixed commit and restore only the non-test source files from the parent, so
 the test files under evaluation are identical in both runs.
 
 Usage (repos are cloned under --work, editable-installed in the venv):
-  python run.py validate [--case ID]          # reference tests from the fix
+  python run.py validate [CASE_ID]            # reference tests from the fix
   python run.py check CASE_ID CANDIDATE.py    # a candidate test file
 
 A verdict is mechanical, no model judges it:
@@ -49,6 +49,13 @@ def pytest(python: str, repo: Path, targets: list[str]) -> dict:
     return {"exit": p.returncode, "summary": tail[0], "seconds": round(time.time() - t0, 1)}
 
 
+def py_for(work: Path, case: dict) -> str:
+    """Interpreter for a case: <work>/<case["venv"]>, default <work>/.venv."""
+    venv = work / case.get("venv", ".venv")
+    python = venv / "Scripts" / "python.exe"
+    return str(python if python.exists() else venv / "bin" / "python")
+
+
 def set_tree(repo: Path, case: dict, state: str) -> None:
     git(repo, "checkout", "-q", "--force", case["fixed"])
     if state == "buggy":
@@ -75,16 +82,13 @@ def main() -> int:
     ap.add_argument("--json", action="store_true")
     a = ap.parse_args()
     work = Path(a.work)
-    python = str(work / ".venv" / "Scripts" / "python.exe")
-    if not Path(python).exists():
-        python = str(work / ".venv" / "bin" / "python")
 
     results = []
     if a.cmd == "validate":
         ids = [a.case] if a.case else list(CASES)
         for cid in ids:
             c = CASES[cid]
-            r = run_both(python, work / c["repo"], c, c["ref_tests"])
+            r = run_both(py_for(work, c), work / c["repo"], c, c["ref_tests"])
             results.append({"case": cid, "test": "reference", **r})
     else:
         c = CASES[a.case]
@@ -93,7 +97,7 @@ def main() -> int:
         try:
             set_tree(repo, c, "fixed")
             shutil.copyfile(a.candidate, dest)
-            r = run_both(python, repo, c, [str(dest.relative_to(repo))])
+            r = run_both(py_for(work, c), repo, c, [str(dest.relative_to(repo))])
         finally:
             dest.unlink(missing_ok=True)
         results.append({"case": a.case, "test": str(a.candidate), **r})
