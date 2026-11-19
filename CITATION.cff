@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: "If you use this audit or the pilot data, please cite it as below."
+title: "research-agent-tests: an audit of agent instruction files in research software and a 5-bug pilot on agent-written regression tests"
+type: software
+authors:
+  - name: "Han Vigo"
+    website: "https://github.com/vigohan95"
+repository-code: "https://github.com/vigohan95/research-agent-tests"
+license: MIT
+version: 0.1.0
+date-released: "2026-11-19"
+keywords:
+  - research software
+  - software testing
+  - AI coding agents
