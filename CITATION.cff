@@ -7,8 +7,8 @@ authors:
     website: "https://github.com/vigohan95"
 repository-code: "https://github.com/vigohan95/research-agent-tests"
 license: MIT
-version: 0.2.0
-date-released: "2026-11-19"
+version: 0.2.1
+date-released: "2026-11-20"
 keywords:
   - research software
   - software testing
