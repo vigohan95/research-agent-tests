@@ -23,7 +23,7 @@
   1. Vaguer symptoms: the downstream effect only (a wrong number in an analysis), not the function and value.
   2. A second measure: injected faults in the changed code (mutation score), and how well the test survives plausible but wrong fixes.
   3. A harder task variant: the agent writes the fix and the test together, and the test is then run against the buggy code. This is the case the proposal is actually about (shared author, shared misunderstanding).
-- **The cost estimate can be grounded.** About 80k tokens per agent run at this difficulty. 60 cases x 4 conditions x 2 agents x 3 repeats is about 1,440 runs, about 115M tokens. Convert to dollars with current published prices before writing the budget line; do not guess the price.
+- **The cost estimate can be grounded.** About 80k tokens per agent run at this difficulty. 60 cases x 4 conditions x 2 agents x 3 repeats is about 1,440 runs, about 115M tokens. Dollar figures, and why they are a lower bound, are in `RESULTS2.md`.
 - **Side finding:** networkx-8906-A noticed that `effective_size(G, nodes=..., weight=...)` returns `nan` for a sink node in a directed graph. Not checked yet; if it holds on current networkx main it is a separate upstream issue.
 - Guidance files changed style, not outcome: B tests followed repo conventions (type hints and the dask fixture in xarray, numpydoc and the license header in mne).
 

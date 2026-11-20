@@ -115,6 +115,9 @@ cases that have all three conditions the `shared` counts are C 4, D 2, T 2.
 
 ## Every `fix_ref` fail, read by hand (12 runs, 6 cases)
 
+"By hand" here and below means not by a script: the author read these with an AI agent. No
+second reader labelled them (note added 2026-11-20).
+
 All 12 are also `shared`: no agent's own test failed on its own fix.
 
 **The fix leaves or creates wrong results (5 runs).**

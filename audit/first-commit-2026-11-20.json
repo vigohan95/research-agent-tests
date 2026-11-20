@@ -1,0 +1,122 @@
+[
+ {
+  "repo": "pydata/xarray",
+  "first_commit": "2025-09-03T23:37:35Z",
+  "file": "CLAUDE.md",
+  "commits_on_path": 8
+ },
+ {
+  "repo": "lammps/lammps",
+  "first_commit": "2025-10-18T03:12:15Z",
+  "file": ".github/copilot-instructions.md",
+  "commits_on_path": 33
+ },
+ {
+  "repo": "scikit-learn/scikit-learn",
+  "first_commit": "2025-10-30T13:54:29Z",
+  "file": "AGENTS.md",
+  "commits_on_path": 3
+ },
+ {
+  "repo": "pandas-dev/pandas",
+  "first_commit": "2025-11-13T21:14:16Z",
+  "file": "AGENTS.md",
+  "commits_on_path": 5
+ },
+ {
+  "repo": "nilearn/nilearn",
+  "first_commit": "2026-05-13T17:02:34Z",
+  "file": "AGENTS.md",
+  "commits_on_path": 5
+ },
+ {
+  "repo": "dask/dask",
+  "first_commit": "2026-05-29T15:08:38Z",
+  "file": "AGENTS.md",
+  "commits_on_path": 4
+ },
+ {
+  "repo": "scikit-hep/awkward",
+  "first_commit": "2026-06-10T19:51:32Z",
+  "file": "AGENTS.md",
+  "commits_on_path": 4
+ },
+ {
+  "repo": "mne-tools/mne-python",
+  "first_commit": "2026-07-02T15:08:01Z",
+  "file": "CLAUDE.md",
+  "commits_on_path": 2
+ },
+ {
+  "repo": "sympy/sympy",
+  "first_commit": "2026-07-08T17:57:21Z",
+  "file": "CLAUDE.md",
+  "commits_on_path": 3
+ },
+ {
+  "repo": "firedrakeproject/firedrake",
+  "first_commit": "2026-07-09T16:09:48Z",
+  "file": "AGENTS.md",
+  "commits_on_path": 5
+ },
+ {
+  "repo": "FEniCS/dolfinx",
+  "first_commit": "2026-07-18T08:19:35Z",
+  "file": "AGENTS.md",
+  "commits_on_path": 20
+ },
+ {
+  "repo": "statsmodels/statsmodels",
+  "first_commit": "2026-08-11T10:54:35Z",
+  "file": "AGENTS.md",
+  "commits_on_path": 8
+ },
+ {
+  "repo": "networkx/networkx",
+  "first_commit": "2026-08-13T00:38:18Z",
+  "file": "AGENTS.md",
+  "commits_on_path": 2
+ },
+ {
+  "repo": "pyvista/pyvista",
+  "first_commit": "2026-08-16T01:29:58Z",
+  "file": "AGENTS.md",
+  "commits_on_path": 10
+ },
+ {
+  "repo": "pyro-ppl/numpyro",
+  "first_commit": "2026-09-20T18:00:21Z",
+  "file": "AGENTS.md",
+  "commits_on_path": 1
+ },
+ {
+  "repo": "root-project/root",
+  "first_commit": "2026-09-29T07:57:19Z",
+  "file": "AGENTS.md",
+  "commits_on_path": 1
+ },
+ {
+  "repo": "yt-project/yt",
+  "first_commit": "2026-09-29T15:39:16Z",
+  "file": "AGENTS.md",
+  "commits_on_path": 2
+ },
+ {
+  "repo": "pymc-devs/pymc",
+  "first_commit": "2026-10-25T06:35:46Z",
+  "file": "AGENTS.md",
+  "commits_on_path": 2
+ },
+ {
+  "repo": "ESMValGroup/ESMValTool",
+  "first_commit": "2026-10-28T15:09:10Z",
+  "file": "AGENTS.md",
+  "commits_on_path": 1
+ },
+ {
+  "repo": "nextflow-io/nextflow",
+  "first_commit": "2026-10-30T16:10:11Z",
+  "file": "AGENTS.md",
+  "commits_on_path": 2
+ }
+]
